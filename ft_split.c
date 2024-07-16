@@ -1,6 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
 
 int	ft_count_words(char *str)
 {
@@ -98,14 +96,3 @@ char	**ft_split(char *str)
 	return (strs);
 }
 
-int main(void)
-{
-    char *str = " Hello World 42network anass";
-	char **array;
-	array = ft_split(str);
-	int i = 0;
-	while (array[i])
-	{
-	printf("%s\n", array[i]);i++;
-	}
-}
