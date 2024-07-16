@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 int	ft_count_words(char *str)
 {
@@ -28,29 +30,42 @@ int	ft_count_words(char *str)
 	return (count);
 }
 
-int 	ft_findword(char *str, int n)
+int 	ft_findword(char *str, int n, int *last)
 {
 	int	i;
-	int indexe;
+	int first;
+	int flag;
 
 	i = n;
-	indexe = n;
+	first = n;
+	flag = 0;
 	while (str[i])
     {
-    	while (str[i] == ' ' || str[i] == '	' || str[i] == '\n')
+    	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
 		{
 			i++;
 		}
 		if (str[i])
 		{
-			indexe = i;
-			return (indexe);
+			first = i;
 		}
+		while ((str[i] != ' ' && str[i] != '\t' && str[i] != '\n') && str[i] )
+		{
+			i++;
+			flag = 1;
+		}
+		if (flag)
+		{
+			*last = i;
+			return(first);
+		}
+		flag = 0;
+		
 	}
-	return (indexe);
+	return (first);
 }
 
-char	*ft_strdup(char *src, int *n)
+char	*ft_strdup(char *src)
 {
 	char	*p;
 	int		i;
@@ -68,9 +83,6 @@ char	*ft_strdup(char *src, int *n)
 		i++;
 	}
 	p[i] = '\0';
-	if(n - 1 >= 0)
-		(*n)++;	
-	*n = *n + i ;
 	return (p);
 }
 
@@ -81,6 +93,8 @@ char	**ft_split(char *str)
 	int	indexe;
 	char	**strs;
 
+	if (!str)
+		return (NULL);
 	strs = malloc(sizeof(char*) * (ft_count_words(str) + 1));
 	if (!strs)
 		return (NULL);
@@ -88,11 +102,29 @@ char	**ft_split(char *str)
 	j = 0;
 	while (str[i] && j < ft_count_words(str))
 	{
-		indexe = ft_findword(str, i);
-		strs[j] = ft_strdup(str + indexe, &i);
+		indexe = ft_findword(str, i, &i);
+		strs[j] = ft_strdup(str + indexe);
 		j++;
 	}
 	strs[j] = NULL;
 	return (strs);
 }
 
+int main(void)
+{
+    char *str = "Hello   World    42network		iguiji	";
+	char **array;
+	array = ft_split(str);
+	int i = 0;
+	while (array[i])
+	{
+	printf("%s\n", array[i]);i++;
+	}
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free (array);
+}
