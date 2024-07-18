@@ -100,7 +100,7 @@ char	**ft_split(char *str)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (str[i] && j < ft_count_words(str))
+	while (j < ft_count_words(str))
 	{
 		indexe = ft_findword(str, i, &i);
 		strs[j] = ft_strdup(str + indexe);

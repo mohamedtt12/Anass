@@ -76,9 +76,9 @@ int ft_atoi_base(const char *str, int str_base)
 
 int main()
 {
-    char *str = "AbCD";
+    char *str = "101010";
     int number ;
-    number = ft_atoi_base(str, 16);
+    number = ft_atoi_base(str, 2);
     printf("%d", number);
 
 }
